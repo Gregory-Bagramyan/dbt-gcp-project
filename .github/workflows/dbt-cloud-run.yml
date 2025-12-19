@@ -53,7 +53,7 @@ jobs:
             --project ${{ secrets.GCP_PROJECT_ID }}
 
       # 7 (Optional) Smoke-run job once after deploy
-       Comment this OUT in prod if Airflow controls execution
+      # Comment this OUT in prod if Airflow controls execution
        - name: Execute Cloud Run Job
          run: |
            gcloud run jobs execute dbt-build-job \
