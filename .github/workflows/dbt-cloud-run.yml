@@ -38,3 +38,11 @@ jobs:
         run: |
           IMAGE_URI="europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/dbt-images/dbt:${GITHUB_SHA}"
           docker push $IMAGE_URI
+
+      - name: Update Cloud Run Job
+        run: |
+          IMAGE_URI="europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/dbt-images/dbt:${GITHUB_SHA}"
+          gcloud run jobs update dbt-build-job \
+            --image $IMAGE_URI \
+            --region europe-west1 \
+            --project ${{ secrets.GCP_PROJECT_ID }}
