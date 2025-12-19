@@ -47,8 +47,8 @@ jobs:
             --region europe-west1 \
             --project ${{ secrets.GCP_PROJECT_ID }}
 
-      - name: Execute Cloud Run Job
-        run: |
-          gcloud run jobs execute dbt-build-job \
-            --region europe-west1 \
-            --project ${{ secrets.GCP_PROJECT_ID }}
+      #- name: Execute Cloud Run Job
+      #  run: |
+      #    gcloud run jobs execute dbt-build-job \
+      #      --region europe-west1 \
+      #      --project ${{ secrets.GCP_PROJECT_ID }}
