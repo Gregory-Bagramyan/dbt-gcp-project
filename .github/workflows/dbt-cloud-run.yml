@@ -14,7 +14,6 @@ jobs:
       contents: read
 
     steps:
-      # 1 Checkout code
       - name: Checkout repository
         uses: actions/checkout@v4
 
