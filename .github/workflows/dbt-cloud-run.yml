@@ -32,3 +32,8 @@ jobs:
         run: |
           IMAGE_URI="europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/dbt-images/dbt:${GITHUB_SHA}"
           docker build -t $IMAGE_URI .
+
+      - name: Push Docker image
+        run: |
+          IMAGE_URI="europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/dbt-images/dbt:${GITHUB_SHA}"
+          docker push $IMAGE_URI
