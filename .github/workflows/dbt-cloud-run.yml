@@ -14,47 +14,47 @@ jobs:
       contents: read
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+          - name: Checkout repository
+          uses: actions/checkout@v4
 
       # 2 Authenticate to GCP (CI/CD Service Account)
-      - name: Authenticate to Google Cloud
-        uses: google-github-actions/setup-gcloud@v2
-        with:
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
-          export_default_credentials: true
+          - name: Authenticate to Google Cloud
+          uses: google-github-actions/setup-gcloud@v2
+          with:
+            project_id: ${{ secrets.GCP_PROJECT_ID }}
+            service_account_key: ${{ secrets.GCP_SA_KEY }}
+            export_default_credentials: true
 
       # 3 Configure Docker for Artifact Registry
-      - name: Configure Docker auth
-        run: |
-          gcloud auth configure-docker europe-west1-docker.pkg.dev --quiet
+          - name: Configure Docker auth
+          run: |
+            gcloud auth configure-docker europe-west1-docker.pkg.dev --quiet
 
       # 4 Build Docker image (tagged with commit SHA)
-      - name: Build Docker image
-        run: |
-          IMAGE_URI="europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/dbt-images/dbt:${GITHUB_SHA}"
-          docker build -t $IMAGE_URI .
+          - name: Build Docker image
+          run: |
+            IMAGE_URI="europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/dbt-images/dbt:${GITHUB_SHA}"
+            docker build -t $IMAGE_URI .
 
       # 5 Push image to Artifact Registry
-      - name: Push Docker image
-        run: |
-          IMAGE_URI="europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/dbt-images/dbt:${GITHUB_SHA}"
-          docker push $IMAGE_URI
+          - name: Push Docker image
+          run: |
+            IMAGE_URI="europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/dbt-images/dbt:${GITHUB_SHA}"
+            docker push $IMAGE_URI
 
       # 6 Update Cloud Run Job to use new image
-      - name: Update Cloud Run Job
-        run: |
-          IMAGE_URI="europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/dbt-images/dbt:${GITHUB_SHA}"
-          gcloud run jobs update dbt-build-job \
-            --image $IMAGE_URI \
-            --region europe-west1 \
-            --project ${{ secrets.GCP_PROJECT_ID }}
+          - name: Update Cloud Run Job
+          run: |
+            IMAGE_URI="europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/dbt-images/dbt:${GITHUB_SHA}"
+            gcloud run jobs update dbt-build-job \
+              --image $IMAGE_URI \
+              --region europe-west1 \
+              --project ${{ secrets.GCP_PROJECT_ID }}
 
       # 7 (Optional) Smoke-run job once after deploy
       # Comment this OUT in prod if Airflow controls execution
-       - name: Execute Cloud Run Job
-         run: |
-           gcloud run jobs execute dbt-build-job \
-             --region europe-west1 \
-             --project ${{ secrets.GCP_PROJECT_ID }}
+            - name: Execute Cloud Run Job
+           run: |
+             gcloud run jobs execute dbt-build-job \
+               --region europe-west1 \
+               --project ${{ secrets.GCP_PROJECT_ID }}
