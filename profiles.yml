@@ -1,0 +1,13 @@
+dbt_project:
+  outputs:
+    dev:
+      dataset: dbt_project
+      job_execution_timeout_seconds: 300
+      job_retries: 1
+      location: US
+      method: oauth
+      priority: interactive
+      project: ancient-folio-481614-p3
+      threads: 1
+      type: bigquery
+  target: dev
