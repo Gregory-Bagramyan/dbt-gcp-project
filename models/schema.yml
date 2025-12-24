@@ -1,0 +1,16 @@
+models:
+  - name: dim_customers
+    description: Latest known customer attributes based on most recent order
+    columns:
+      - name: customer_id
+        tests:
+          - not_null
+          - unique
+
+      - name: customer_name
+        tests:
+          - not_null
+
+      - name: customer_segment
+        tests:
+          - not_null
