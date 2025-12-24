@@ -16,6 +16,7 @@ models:
           - not_null
 
   - name: dim_products
+    description: Latest known product attributes based on most recent sale
     columns:
       - name: product_id
         data_tests:
@@ -31,5 +32,5 @@ models:
           - not_null
 
       - name: product_sub_category
-        data_tests: 
+        data_tests:
           - not_null
