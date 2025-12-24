@@ -1,5 +1,5 @@
 WITH raw_sales as (
-    SELECT * FROM ancient-folio-481614-p3.test_raw_data.raw_sales_data
+    SELECT * FROM {{ source('raw', 'raw_sales') }}
 )
 
 SELECT
@@ -18,5 +18,5 @@ SELECT
     CAST(`Category` as string) as product_category,
     CAST(`Sub-Category` as string)as product_sub_category,
     CAST(`Product Name` as string) as product_name,
-    CAST(`Sales` as float) as sales
+    CAST(`Sales` as float64) as sales
 FROM raw_sales

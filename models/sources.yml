@@ -1,0 +1,6 @@
+sources:
+  - name: raw
+    schema: dbt_project
+    tables:
+      - name: raw_sales
+        identifier: raw_sales
