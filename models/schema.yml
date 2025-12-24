@@ -34,3 +34,30 @@ models:
       - name: product_sub_category
         data_tests:
           - not_null
+
+  - name: dim_locations
+    description: Unique physical locations derived from sales data
+    columns:
+      - name: location_sk
+        tests:
+          - not_null
+          - unique
+
+      - name: country
+        tests:
+          - not_null
+
+      - name: state
+        tests:
+          - not_null
+
+      - name: city
+        tests:
+          - not_null
+
+      - name: postal_code
+        description: Postal code, can be null
+
+      - name: region
+        tests:
+          - not_null
