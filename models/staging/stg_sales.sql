@@ -12,7 +12,7 @@ SELECT
     CAST(`Country` as string) as country,
     CAST(`City` as string) as city,
     CAST(`State` as string) as state,
-    CAST(`Postal Code` as string) as postal_code,
+    NULLIF(TRIM(CAST(postal_code as string)), '') as postal_code,
     CAST(`Region` as string) as region,
     CAST(`Product ID` as string) as product_id,
     CAST(`Category` as string) as product_category,
