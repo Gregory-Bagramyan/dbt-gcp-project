@@ -3,14 +3,33 @@ models:
     description: Latest known customer attributes based on most recent order
     columns:
       - name: customer_id
-        tests:
+        data_tests:
           - not_null
           - unique
 
       - name: customer_name
-        tests:
+        data_tests:
           - not_null
 
       - name: customer_segment
-        tests:
+        data_tests:
+          - not_null
+
+  - name: dim_products
+    columns:
+      - name: product_id
+        data_tests:
+          - not_null
+          - unique
+
+      - name: product_name
+        data_tests:
+          - not_null
+
+      - name: product_category
+        data_tests:
+          - not_null
+
+      - name: product_sub_category
+        data_tests: 
           - not_null
