@@ -7,7 +7,6 @@ with locations as (
         postal_code,
         region
     from {{ ref('stg_sales') }}
-
     where country is not null
 
 ),
@@ -29,7 +28,7 @@ select
         'country',
         'state',
         'city',
-        'postal_code',
+        'coalesce(postal_code, ''__unknown__'')',
         'region'
     ]) }} as location_sk,
 
