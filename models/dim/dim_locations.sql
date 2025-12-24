@@ -28,7 +28,7 @@ select
         'country',
         'state',
         'city',
-        'coalesce(postal_code, ''__unknown__'')',
+        'coalesce(postal_code, "__unknown__")',
         'region'
     ]) }} as location_sk,
 
