@@ -9,6 +9,9 @@ RUN pip install --no-cache-dir \
     dbt-core==1.10.3 \
     dbt-bigquery==1.10.3
 
+# Install dbt dependencies
+RUN dbt deps
+
 # Copy project files to the container
 COPY . /app
 
