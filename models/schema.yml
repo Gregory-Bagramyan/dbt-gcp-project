@@ -93,6 +93,21 @@ models:
                 to: ref('dim_locations')
                 field: location_sk
 
+      - name: order_date_sk
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_dates')
+                field: date_sk
+
+      - name: ship_date_sk
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_dates')
+                field: date_sk
+
       - name: order_date
         data_tests:
           - not_null
@@ -101,15 +116,15 @@ models:
         data_tests:
           - not_null
 
-  - name: dim_date
+  - name: dim_dates
     description: Calendar date dimension
     columns:
       - name: date_sk
-        tests:
+        data_tests:
           - not_null
           - unique
 
       - name: date_day
-        tests:
+        data_tests:
           - not_null
           - unique
