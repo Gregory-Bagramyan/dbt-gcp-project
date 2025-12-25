@@ -100,3 +100,16 @@ models:
       - name: sales
         data_tests:
           - not_null
+
+  - name: dim_date
+    description: Calendar date dimension
+    columns:
+      - name: date_sk
+        tests:
+          - not_null
+          - unique
+
+      - name: date_day
+        tests:
+          - not_null
+          - unique
