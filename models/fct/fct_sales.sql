@@ -45,6 +45,15 @@ locations as (
         region
     from {{ ref('dim_locations') }}
 
+),
+
+dates as (
+
+    select
+        date_sk,
+        date_day
+    from {{ ref('dim_dates') }}
+
 )
 
 select
@@ -56,7 +65,11 @@ select
     s.product_id,
     l.location_sk,
 
-    -- dates
+    -- date foreign keys
+    od.date_sk as order_date_sk,
+    sd.date_sk as ship_date_sk,
+
+    -- raw dates (kept intentionally)
     s.order_date,
     s.ship_date,
 
@@ -64,6 +77,8 @@ select
     s.sales
 
 from sales s
+
+-- location join
 left join locations l
   on s.country = l.country
  and s.state = l.state
@@ -71,3 +86,11 @@ left join locations l
  and coalesce(s.postal_code, '__unknown__')
      = coalesce(l.postal_code, '__unknown__')
  and s.region = l.region
+
+-- order date join
+left join dates od
+  on s.order_date = od.date_day
+
+-- ship date join
+left join dates sd
+  on s.ship_date = sd.date_day
