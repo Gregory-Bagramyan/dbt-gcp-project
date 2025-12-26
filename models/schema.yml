@@ -1,0 +1,130 @@
+models:
+  - name: dim_customers
+    description: Latest known customer attributes based on most recent order
+    columns:
+      - name: customer_id
+        data_tests:
+          - not_null
+          - unique
+
+      - name: customer_name
+        data_tests:
+          - not_null
+
+      - name: customer_segment
+        data_tests:
+          - not_null
+
+  - name: dim_products
+    description: Latest known product attributes based on most recent sale
+    columns:
+      - name: product_id
+        data_tests:
+          - not_null
+          - unique
+
+      - name: product_name
+        data_tests:
+          - not_null
+
+      - name: product_category
+        data_tests:
+          - not_null
+
+      - name: product_sub_category
+        data_tests:
+          - not_null
+
+  - name: dim_locations
+    description: Unique physical locations derived from sales data
+    columns:
+      - name: location_sk
+        data_tests:
+          - not_null
+          - unique
+
+      - name: country
+        data_tests:
+          - not_null
+
+      - name: state
+        data_tests:
+          - not_null
+
+      - name: city
+        data_tests:
+          - not_null
+
+      - name: postal_code
+        description: Postal code, can be null
+
+      - name: region
+        data_tests:
+          - not_null
+
+  - name: fct_sales
+    description: Sales fact table at order-product grain
+    columns:
+      - name: order_id
+        data_tests:
+          - not_null
+
+      - name: customer_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_customers')
+                field: customer_id
+
+      - name: product_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_products')
+                field: product_id
+
+      - name: location_sk
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_locations')
+                field: location_sk
+
+      - name: order_date_sk
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_dates')
+                field: date_sk
+
+      - name: ship_date_sk
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_dates')
+                field: date_sk
+
+      - name: order_date
+        data_tests:
+          - not_null
+
+      - name: sales
+        data_tests:
+          - not_null
+
+  - name: dim_dates
+    description: Calendar date dimension
+    columns:
+      - name: date_sk
+        data_tests:
+          - not_null
+          - unique
+
+      - name: date_day
+        data_tests:
+          - not_null
+          - unique

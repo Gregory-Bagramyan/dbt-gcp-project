@@ -1,14 +1,25 @@
-WITH raw_sales as (
-    SELECT * FROM ancient-folio-481614-p3.test_raw_data.raw_sales_data
+WITH ordered_customers as (
+
+    SELECT
+        customer_id,
+        customer_name,
+        customer_segment,
+        order_date,
+
+        row_number() over (
+            partition by customer_id
+            order by order_date desc
+        ) as rn
+
+    FROM {{ ref('stg_sales') }}
+
+    WHERE customer_id is not null
+
 )
 
 SELECT
-    `Customer ID` as customer_id,
-    `Customer Name` as customer_name,
-    `Segment` as customer_segment,
-    `Country` as customer_country,
-    `City` as customer_city,
-    `State` as customer_state,
-    `Postal Code` as customer_postal_code,
-    `Region` as customer_region
-FROM raw_sales
+    customer_id,
+    customer_name,
+    customer_segment
+FROM ordered_customers
+WHERE rn = 1

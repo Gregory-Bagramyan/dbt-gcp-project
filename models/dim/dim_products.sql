@@ -1,10 +1,21 @@
-WITH raw_sales as (
-    SELECT * FROM ancient-folio-481614-p3.test_raw_data.raw_sales_data
+WITH ordered_products as (
+    SELECT 
+        product_id,
+        product_name,
+        product_category,
+        product_sub_category,
+        row_number() over (
+            partition by product_id
+            order by order_date desc
+        ) as rn
+    FROM {{ ref('stg_sales') }}
+    WHERE product_id is not null
 )
 
-SELECT  
-    `Product ID`as product_id,
-    `Category`as product_category,
-    `Sub-Category`as product_sub_category,
-    `Product Name`as product_name
-FROM raw_sales
+SELECT 
+    product_id,
+        product_name,
+        product_category,
+        product_sub_category
+FROM ordered_products
+WHERE rn = 1
