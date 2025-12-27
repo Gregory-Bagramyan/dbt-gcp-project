@@ -57,8 +57,6 @@ models:
 
       - name: postal_code
         description: Postal code, can be null
-        data_test:
-          - not_null
 
       - name: region
         data_tests:
