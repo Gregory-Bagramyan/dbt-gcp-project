@@ -73,40 +73,35 @@ models:
         data_tests:
           - not_null
           - relationships:
-              arguments:
-                to: ref('dim_customers')
-                field: customer_id
+              to: ref('dim_customers')
+              field: customer_id
 
       - name: product_id
         data_tests:
           - not_null
           - relationships:
-              arguments:
-                to: ref('dim_products')
-                field: product_id
+              to: ref('dim_products')
+              field: product_id
 
       - name: location_sk
         data_tests:
           - not_null
           - relationships:
-              arguments:
-                to: ref('dim_locations')
-                field: location_sk
+              to: ref('dim_locations')
+              field: location_sk
 
       - name: order_date_sk
         data_tests:
           - not_null
           - relationships:
-              arguments:
-                to: ref('dim_dates')
-                field: date_sk
+              to: ref('dim_dates')
+              field: date_sk
 
       - name: ship_date_sk
         data_tests:
           - relationships:
-              arguments:
-                to: ref('dim_dates')
-                field: date_sk
+              to: ref('dim_dates')
+              field: date_sk
 
       - name: order_date
         data_tests:
