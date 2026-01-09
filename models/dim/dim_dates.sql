@@ -24,6 +24,10 @@ select
     extract(quarter from date_day) as quarter,
     extract(month from date_day)   as month,
 
+    -- year_month and year_quarter for BI tool
+    DATE(CONCAT(extract(year from date_day), "-", extract(month from date_day), "-01")) as year_month,
+    CONCAT(extract(year from date_day), "-", extract(quarter from date_day)) as year_quarter,
+
     -- behavioral flag
     extract(dayofweek from date_day) in (1, 7) as is_weekend,
     format_date('%A', date_day) as day_name,
